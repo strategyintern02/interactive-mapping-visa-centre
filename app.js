@@ -285,13 +285,30 @@ function renderSideKpis(){
     'New Empanelment': v.filter(c=>Object.values(c.programStatuses).some(s=>s==='New Empanelment')).length,
     'De-panelled':     v.filter(c=>Object.values(c.programStatuses).some(s=>s==='De-panelled')).length,
   };
+  const citiesCount = new Set(v.map(c=>c.sourceCountry+'|'+c.city)).size;
   const SHORT = {'Active':'Active','New Empanelment':'New','De-panelled':'De-panelled'};
-  $('#railKpis').innerHTML = STATUSES.map(s=>`
-    <div class="rkpi k-${STATUS_CLASS[s]}" title="${s}: ${fmt(counts[s]||0)} centres in current view">
+  const SCROLL = {'New Empanelment':'paneNew','De-panelled':'paneDepanel'};
+  const statusCards = STATUSES.map(s=>{
+    const clickable = s==='New Empanelment'||s==='De-panelled';
+    return `<div class="rkpi k-${STATUS_CLASS[s]}${clickable?' rkpi-clickable':''}"
+      title="${s}: ${fmt(counts[s]||0)} centres in current view${clickable?' — click to view list':''}"
+      ${clickable?`data-scrollto="${SCROLL[s]}"`:''}>
       <div class="v">${fmt(counts[s]||0)}</div>
       <div class="l">${SHORT[s]}</div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+  $('#railKpis').innerHTML = statusCards +
+    `<div class="rkpi" title="Distinct cities in current view: ${citiesCount}">
+      <div class="v">${fmt(citiesCount)}</div>
+      <div class="l">Cities</div>
+    </div>`;
+  $$('#railKpis .rkpi-clickable').forEach(card=>{
+    card.addEventListener('click',()=>{
+      setTab('changes');
+      const t = card.dataset.scrollto;
+      if (t) setTimeout(()=>{const el=document.getElementById(t);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},60);
+    });
+  });
 }
 
 // --- Filter checkboxes ---
@@ -758,7 +775,7 @@ function renderValidationPane(){
 }
 
 function renderNewPane(){
-  const news = state.data.centres.filter(c=>Object.values(c.programStatuses).some(s=>s==='New Empanelment'));
+  const news = filterCentres().filter(c=>Object.values(c.programStatuses).some(s=>s==='New Empanelment'));
   $('#paneNew').innerHTML = `
     <div class="section-title" style="margin-top:0;color:var(--st-new)">▲ New empanelments — ${news.length}</div>
     ${news.length===0
@@ -781,7 +798,7 @@ function renderNewPane(){
 }
 
 function renderDepanelPane(){
-  const dep = state.data.centres.filter(c=>c.status==='De-panelled' || Object.values(c.programStatuses).some(s=>s==='De-panelled'));
+  const dep = filterCentres().filter(c=>c.status==='De-panelled' || Object.values(c.programStatuses).some(s=>s==='De-panelled'));
   $('#paneDepanel').innerHTML = `
     <div class="section-title" style="color:var(--st-depanel)">▼ De-panellings — ${dep.length} (includes program-level removals)</div>
     ${dep.length===0
