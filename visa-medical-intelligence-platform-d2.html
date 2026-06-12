@@ -3401,6 +3401,20 @@
         if (!pane) return;
 
         pane.innerHTML = `
+  <!-- BASELINE CONTROL -->
+  <div class="filter-section" style="background:var(--st-review-bg);border-bottom:2px solid var(--st-review-bd);padding-bottom:14px;margin-bottom:0">
+    <div class="filter-title" style="color:var(--st-review);margin-bottom:6px">&#128203; Baseline Control</div>
+    <div style="font-size:11px;color:var(--text-2);line-height:1.55;margin-bottom:10px">
+      Save the current state as a baseline before testing. All test changes — new empanelments, de-panelments, re-empanelments — can be undone in one click.
+    </div>
+    <div id="snapshotStatus" style="font-size:11px;color:var(--muted);margin-bottom:10px;padding:6px 8px;background:rgba(255,255,255,.65);border-radius:3px;border:1px solid var(--st-review-bd)">Checking baseline&hellip;</div>
+    <div class="btn-row">
+      <button class="btn" id="btnSaveBaseline" style="background:var(--accent);color:#fff;border-color:var(--accent);font-weight:500">&#128190; Save as Baseline</button>
+      <button class="btn" id="btnRevertBaseline" style="color:var(--st-depanel);border-color:var(--st-depanel-bd);font-weight:500">&#8617; Revert to Baseline</button>
+    </div>
+    <div id="toastBaseline" class="toast" style="margin-top:8px"></div>
+  </div>
+
   <div class="filter-section" style="padding-bottom:12px">
     <div class="filter-title" style="margin-bottom:10px">Select operation</div>
     <div class="update-subtabs">
@@ -3710,6 +3724,71 @@
         $('#btnSubmitDep').onclick = handleDepanel;
 
         refreshUpdateCentreSelect();
+
+        // ── Baseline Control ──────────────────────────────────────────────
+        async function loadSnapshotStatus() {
+          const el = $('#snapshotStatus');
+          if (!el) return;
+          try {
+            const res  = await fetch('/api/snapshot/status');
+            const data = await res.json();
+            if (data.exists) {
+              const when = data.savedAt
+                ? new Date(data.savedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+                : 'unknown time';
+              el.innerHTML = `<span style="color:var(--st-active)">&#10003; Baseline saved</span> &mdash; ${data.count} centres &middot; ${when}`;
+            } else {
+              el.innerHTML = `<span style="color:var(--st-review)">&#9888; No baseline saved yet</span> &mdash; save one before running tests`;
+            }
+          } catch (e) {
+            el.textContent = '⚠ Could not check baseline status';
+          }
+        }
+
+        $('#btnSaveBaseline').onclick = async () => {
+          const btn = $('#btnSaveBaseline');
+          btn.disabled = true;
+          btn.textContent = 'Saving…';
+          showToast('toastBaseline', '', '');
+          try {
+            const res  = await fetch('/api/snapshot', { method: 'POST' });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Server error ' + res.status);
+            showToast('toastBaseline', 'success', '✓ Baseline saved — ' + data.count + ' centres captured');
+            loadSnapshotStatus();
+          } catch (e) {
+            showToast('toastBaseline', 'error', '✗ Could not save baseline: ' + e.message);
+          } finally {
+            btn.disabled    = false;
+            btn.textContent = '💾 Save as Baseline';
+          }
+        };
+
+        $('#btnRevertBaseline').onclick = async () => {
+          const confirmed = confirm(
+            'Revert ALL data to the saved baseline?\n\n' +
+            'This will undo every change made since the baseline was saved — new empanelments, de-panelments, and re-empanelments.\n\n' +
+            'This cannot be undone. Continue?'
+          );
+          if (!confirmed) return;
+          const btn = $('#btnRevertBaseline');
+          btn.disabled = true;
+          btn.textContent = 'Reverting…';
+          showToast('toastBaseline', '', '');
+          try {
+            const res  = await fetch('/api/revert', { method: 'POST' });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Server error ' + res.status);
+            showToast('toastBaseline', 'success', '✓ Reverted — ' + data.count + ' centres restored. Reloading…');
+            setTimeout(() => location.reload(), 1800);
+          } catch (e) {
+            showToast('toastBaseline', 'error', '✗ Could not revert: ' + e.message);
+            btn.disabled    = false;
+            btn.textContent = '↵ Revert to Baseline';
+          }
+        };
+
+        loadSnapshotStatus();
       }
 
       function refreshUpdateCentreSelect() {

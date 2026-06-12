@@ -336,6 +336,98 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
   }
 });
 
+// ── Snapshot helpers (baseline for test-mode revert) ─────────────────────────
+
+const SNAPSHOT_FILENAME = 'data-snapshot.json';
+const SNAPSHOT_PATH     = path.join(__dirname, 'data-snapshot.json');
+
+async function readSnapshot() {
+  if (GIST_ID && GITHUB_TOKEN) {
+    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'VisaMedicalIntelligencePlatform/1.0'
+      }
+    });
+    if (!res.ok) throw new Error('GitHub Gist read failed: ' + res.status);
+    const gist = await res.json();
+    const file = gist.files[SNAPSHOT_FILENAME];
+    if (!file) return null;
+    const content = file.truncated
+      ? await (await fetch(file.raw_url)).text()
+      : file.content;
+    return JSON.parse(content);
+  }
+  if (!fs.existsSync(SNAPSHOT_PATH)) return null;
+  return JSON.parse(fs.readFileSync(SNAPSHOT_PATH, 'utf8'));
+}
+
+async function writeSnapshot(data) {
+  const snapshot = { ...data, _snapshotSavedAt: new Date().toISOString() };
+  const content  = JSON.stringify(snapshot, null, 2);
+  if (GIST_ID && GITHUB_TOKEN) {
+    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'VisaMedicalIntelligencePlatform/1.0'
+      },
+      body: JSON.stringify({ files: { [SNAPSHOT_FILENAME]: { content } } })
+    });
+    if (!res.ok) throw new Error('GitHub Gist snapshot write failed: ' + res.status);
+    return;
+  }
+  fs.writeFileSync(SNAPSHOT_PATH, content, 'utf8');
+}
+
+/* GET /api/snapshot/status — does a baseline exist, and when was it saved? */
+app.get('/api/snapshot/status', async (req, res) => {
+  try {
+    const snapshot = await readSnapshot();
+    if (!snapshot) return res.json({ exists: false });
+    res.json({
+      exists:  true,
+      savedAt: snapshot._snapshotSavedAt || null,
+      count:   Array.isArray(snapshot.centres) ? snapshot.centres.length : 0
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+/* POST /api/snapshot — save current data.json as a baseline */
+app.post('/api/snapshot', async (req, res) => {
+  try {
+    const db      = await readDB();
+    const savedAt = new Date().toISOString();
+    await writeSnapshot(db);
+    res.json({ ok: true, savedAt, count: Array.isArray(db.centres) ? db.centres.length : 0 });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+/* POST /api/revert — restore data.json from the saved baseline */
+app.post('/api/revert', async (req, res) => {
+  try {
+    const snapshot = await readSnapshot();
+    if (!snapshot) {
+      return res.status(404).json({ error: 'No baseline snapshot found. Save a baseline first.' });
+    }
+    const { _snapshotSavedAt, ...data } = snapshot;
+    await writeDB(data);
+    res.json({ ok: true, count: Array.isArray(data.centres) ? data.centres.length : 0 });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ── Startup: normalise capitalisation on saved data ───────────────────────────
 (async function normaliseSavedData() {
   try {
