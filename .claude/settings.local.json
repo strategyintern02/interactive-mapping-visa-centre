@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"C:\\\\Users\\\\strategy.intern02\\\\Downloads\\\\mapping d2\\\\\")",
+      "Bash(npm install *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\nodejs\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:ProgramFiles\\\\nodejs\\\\npm.cmd\" -ErrorAction SilentlyContinue)",
+      "PowerShell($paths = @\\(\"C:\\\\Program Files\", \"C:\\\\Program Files \\(x86\\)\", \"$env:LOCALAPPDATA\\\\Programs\", \"C:\\\\tools\", \"C:\\\\nodejs\"\\); foreach \\($p in $paths\\) { if \\(Test-Path $p\\) { Get-ChildItem $p -Directory -ErrorAction SilentlyContinue | Where-Object Name -match \"node\" | Select-Object FullName } })",
+      "PowerShell(python --version 2>&1)",
+      "PowerShell(python3 --version 2>&1)"
+    ]
+  }
+}
