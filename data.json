@@ -469,34 +469,6 @@
       "panelPhysician": "No"
     },
     {
-      "id": "CEN-0016",
-      "name": "Al Haramain Diagnostic Centre",
-      "category": "Physician led Centre",
-      "sourceCountry": "India",
-      "city": "Chennai",
-      "state": "Tamil Nadu",
-      "address": "NO.251, Hamid Building, 3rd Floor, Anna Salai (Mount Road) Chennai Tamil Nadu 600 006, India",
-      "programs": [
-        "WAFID"
-      ],
-      "programStatuses": {
-        "WAFID": "Active"
-      },
-      "m5PanelCount": 1,
-      "totalEmpanelment": 1,
-      "contact": "+914428418489, +919841076177",
-      "email": "alharamaindc@gmail.com, zahirdr@gmail.com",
-      "website": "",
-      "lat": 13.0827,
-      "lng": 80.2707,
-      "coordConfidence": "city-level coordinate",
-      "status": "Active",
-      "validationStatus": "Internal list only - live official validation required",
-      "validationChannel": "Program-specific live database / official page",
-      "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
-      "panelPhysician": "No"
-    },
-    {
       "id": "CEN-0017",
       "name": "Global Emigration Medical Services (GEMS)",
       "category": "Standalone Centre",
@@ -648,11 +620,13 @@
       "address": "S1, S2 & S5-8, Kamat Commercial, Martires Dias Rd, Near Old Hari Mandir, Margao Salcete, Goa-403601, India",
       "programs": [
         "Australia",
-        "UK"
+        "UK",
+        "WAFID"
       ],
       "programStatuses": {
         "Australia": "Active",
-        "UK": "Active"
+        "UK": "Active",
+        "WAFID": "Active"
       },
       "m5PanelCount": 2,
       "totalEmpanelment": 2,
@@ -996,36 +970,6 @@
       "coordConfidence": "city-level coordinate",
       "status": "Active",
       "validationStatus": "Priority for official validation refresh",
-      "validationChannel": "Program-specific live database / official page",
-      "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
-      "panelPhysician": "No"
-    },
-    {
-      "id": "CEN-0034",
-      "name": "Al Shafa Diagnostic Centre",
-      "category": "Physician led Centre",
-      "sourceCountry": "India",
-      "city": "Trivandrum",
-      "state": "Kerala",
-      "address": "Yatheemkhana Shopping Complex, 1st Floor, Vallakkadavu, Trivandrum-695008",
-      "programs": [
-        "Malaysia",
-        "WAFID"
-      ],
-      "programStatuses": {
-        "Malaysia": "Active",
-        "WAFID": "Active"
-      },
-      "m5PanelCount": 2,
-      "totalEmpanelment": 2,
-      "contact": "0471 250 2642",
-      "email": "al-shafa@asianetindia.co",
-      "website": "https://www.lmra.gov.bh/en/clinics/health_center/33",
-      "lat": 8.5241,
-      "lng": 76.9366,
-      "coordConfidence": "city-level coordinate",
-      "status": "Active",
-      "validationStatus": "Internal list only - live official validation required",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
       "panelPhysician": "No"
@@ -1464,7 +1408,7 @@
       ],
       "programStatuses": {
         "Malaysia": "Active",
-        "WAFID": "Active"
+        "WAFID": "De-panelled"
       },
       "m5PanelCount": 2,
       "totalEmpanelment": 2,
@@ -1477,7 +1421,7 @@
       "status": "Active",
       "validationStatus": "Internal list only - live official validation required",
       "validationChannel": "Program-specific live database / official page",
-      "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
+      "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.\nDe-panel [WAFID]: not present on WAFID public directory (verified 2026-06-12).",
       "panelPhysician": ""
     },
     {
@@ -3597,42 +3541,6 @@
       "website": "https://lyallclinic.com",
       "lat": 30.901,
       "lng": 75.8573,
-      "coordConfidence": "city-level coordinate",
-      "status": "Active",
-      "validationStatus": "Priority for official validation refresh",
-      "validationChannel": "Program-specific live database / official page",
-      "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
-      "panelPhysician": ""
-    },
-    {
-      "id": "CEN-0120",
-      "name": "Clinical Diagnostic Centre, Nariman Point",
-      "category": "Standalone Centre",
-      "sourceCountry": "India",
-      "city": "Mumbai",
-      "state": "Maharashtra",
-      "address": "Floor 1, Mahila Vikas Mandal Building, General Jagannath Bhonsale Marg, Near Mantralaya, 400 021",
-      "programs": [
-        "UK",
-        "South Korea",
-        "Canada",
-        "New Zealand",
-        "WAFID"
-      ],
-      "programStatuses": {
-        "UK": "Active",
-        "South Korea": "Active",
-        "Canada": "Active",
-        "New Zealand": "Active",
-        "WAFID": "Active"
-      },
-      "m5PanelCount": 5,
-      "totalEmpanelment": 5,
-      "contact": "+91 22 22866100 / +91 22 22022060",
-      "email": "info.np@cdcgroup.co.in",
-      "website": "",
-      "lat": 19.076,
-      "lng": 72.8777,
       "coordConfidence": "city-level coordinate",
       "status": "Active",
       "validationStatus": "Priority for official validation refresh",
