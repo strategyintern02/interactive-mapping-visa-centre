@@ -1,11 +1,12 @@
 /*
   Visa Medical Centre Intelligence Platform — Server
   --------------------------------------------------
-  Start:  node server.js
-  Open:   http://localhost:3000
+  Local:   node server.js  →  http://localhost:3000
+  Vercel:  module.exports = app  (no listen)
 
-  Data is stored in data.json (same folder).
-  Geocoding uses OpenStreetMap Nominatim (free, no API key needed).
+  Persistence:
+    - When GIST_ID + GITHUB_TOKEN env vars are set → GitHub Gist (Vercel)
+    - Otherwise → data.json on disk (local dev)
 */
 
 const express = require('express');
@@ -17,28 +18,63 @@ const PORT     = process.env.PORT || 3000;
 const DB_PATH  = path.join(__dirname, 'data.json');
 const HTML_FILE = 'visa-medical-intelligence-platform-d2.html';
 
+const GIST_ID      = process.env.GIST_ID;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GIST_FILENAME = 'data.json';
+
 // ── Database helpers ──────────────────────────────────────────────────────────
 
-function readDB() {
+async function readDB() {
+  if (GIST_ID && GITHUB_TOKEN) {
+    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'VisaMedicalIntelligencePlatform/1.0'
+      }
+    });
+    if (!res.ok) throw new Error('GitHub Gist read failed: ' + res.status);
+    const gist = await res.json();
+    const file = gist.files[GIST_FILENAME];
+    if (!file) throw new Error(`File "${GIST_FILENAME}" not found in gist`);
+    // Large gists are truncated — fetch raw content if needed
+    const content = file.truncated
+      ? await (await fetch(file.raw_url)).text()
+      : file.content;
+    return JSON.parse(content);
+  }
+  // Local dev fallback
   const raw = fs.readFileSync(DB_PATH, 'utf8');
-  // Strip BOM if present
   return JSON.parse(raw.charCodeAt(0) === 0xFEFF ? raw.slice(1) : raw);
 }
 
-function writeDB(data) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
+async function writeDB(data) {
+  const content = JSON.stringify(data, null, 2);
+  if (GIST_ID && GITHUB_TOKEN) {
+    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'VisaMedicalIntelligencePlatform/1.0'
+      },
+      body: JSON.stringify({ files: { [GIST_FILENAME]: { content } } })
+    });
+    if (!res.ok) throw new Error('GitHub Gist write failed: ' + res.status);
+    return;
+  }
+  // Local dev fallback
+  fs.writeFileSync(DB_PATH, content, 'utf8');
 }
 
-// FIX #2 — Write queue (mutex) so concurrent POST/PUT requests never
-// interleave their read-modify-write cycles and overwrite each other.
-// Node.js is single-threaded but async gaps (e.g. during geocoding) allow
-// two requests to both read the same file state before either has written back.
+// Write queue (mutex) so concurrent POST/PUT requests never interleave their
+// read-modify-write cycles.
 let _dbQueue = Promise.resolve();
 
 function withDB(fn) {
-  // Chain every DB operation so they run strictly one at a time.
   const result = _dbQueue.then(fn);
-  _dbQueue = result.catch(() => {}); // failed ops must not break the chain
+  _dbQueue = result.catch(() => {});
   return result;
 }
 
@@ -70,16 +106,10 @@ async function geocodeCity(city, country) {
 
 app.use(express.json());
 
-// Root route MUST come before express.static — otherwise static middleware
-// finds index.html in the folder first and serves the old file, and this
-// route never runs.  Order matters in Express.
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, HTML_FILE));
 });
 
-// Block direct browser access to sensitive/stale files.
-// index.html is the old version of the app — block it so the server
-// always serves the current visa-medical-intelligence-platform-d2.html.
 const BLOCKED = [
   '/data.json', '/server.js', '/package.json',
   '/package-lock.json', '/start.bat', '/index.html', '/app.js'
@@ -88,18 +118,14 @@ BLOCKED.forEach(file => {
   app.get(file, (req, res) => res.status(403).json({ error: 'Forbidden' }));
 });
 
-app.use(express.static(__dirname));   // serves remaining static assets (CDN libs are external anyway)
+app.use(express.static(__dirname));
 
 // ── API Routes ────────────────────────────────────────────────────────────────
 
-/* GET /api/centres  — return all centres */
-app.get('/api/centres', (req, res) => {
+/* GET /api/centres */
+app.get('/api/centres', async (req, res) => {
   try {
-    const db = readDB();
-
-    // FIX #12 — normalise every record before sending so manually-edited data.json
-    // entries with wrong types (e.g. programs as a string, null programStatuses)
-    // don't crash the frontend.  Mirror the same guards in the browser's loadData().
+    const db = await readDB();
     db.centres.forEach(c => {
       if (!Array.isArray(c.programs))                                            c.programs = [];
       if (!c.programStatuses || typeof c.programStatuses !== 'object'
@@ -107,7 +133,6 @@ app.get('/api/centres', (req, res) => {
       if (c.lat  !== null && typeof c.lat  !== 'number') c.lat  = parseFloat(c.lat)  || null;
       if (c.lng  !== null && typeof c.lng  !== 'number') c.lng  = parseFloat(c.lng)  || null;
     });
-
     res.json({ centres: db.centres });
   } catch (e) {
     console.error(e);
@@ -115,31 +140,24 @@ app.get('/api/centres', (req, res) => {
   }
 });
 
-/* POST /api/centres  — add a new empanelled centre */
+/* POST /api/centres */
 app.post('/api/centres', async (req, res) => {
   try {
     const { name, city, country, sourceCountry, programs, address, contact, email, remarks } = req.body;
 
-    // Validate mandatory fields
     if (!name || !city || !country || !sourceCountry || !address) {
       return res.status(400).json({ error: 'Missing required fields (name, city, country, sourceCountry, programs, address)' });
     }
-    // FIX #3 (partial) — ensure programs is actually an array, not a string or missing
     if (!Array.isArray(programs) || programs.length === 0) {
       return res.status(400).json({ error: 'programs must be a non-empty array of programme names' });
     }
 
-    // Normalise free-text geographic fields to Title Case so new entries
-    // group correctly with existing data (e.g. "delhi" → "Delhi", "india" → "India").
-    // Declared first so it can be used for geocoding too.
     const toTitleCase = s => (s || '').trim().replace(/\b\w/g, c => c.toUpperCase());
     const normName          = toTitleCase(name);
     const normCity          = toTitleCase(city);
     const normCountry       = toTitleCase(country);
     const normSourceCountry = toTitleCase(sourceCountry);
 
-    // FIX #13 — geocode using the physical location country, not sourceCountry
-    // (sourceCountry = visa applicants' home country; country = where the clinic is located)
     console.log(`  Geocoding: ${normCity}, ${normCountry} ...`);
     const geo = await geocodeCity(normCity, normCountry);
     if (geo.lat) {
@@ -148,7 +166,6 @@ app.post('/api/centres', async (req, res) => {
       console.log(`  ⚠ No coordinates found — centre will appear without map marker`);
     }
 
-    // Build the new centre record (same shape as existing centres)
     const id = 'MC-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
     const programStatuses = {};
     programs.forEach(p => { programStatuses[p] = 'New Empanelment'; });
@@ -178,12 +195,9 @@ app.post('/api/centres', async (req, res) => {
       remarks:  remarks  || '',
     };
 
-    // Duplicate check + save — wrapped in queue for concurrency safety (FIX #2)
-    await withDB(() => {
-      const db = readDB();
+    await withDB(async () => {
+      const db = await readDB();
 
-      // Check if a centre with the same name + city + source country already exists.
-      // Comparison is case-insensitive so "singh clinic" matches "Singh Clinic".
       const nameLower   = normName.toLowerCase();
       const cityLower   = normCity.toLowerCase();
       const sourceLower = normSourceCountry.toLowerCase();
@@ -203,12 +217,12 @@ app.post('/api/centres', async (req, res) => {
             : `"${existing.name}" in ${existing.city} already exists (status: ${status}). ` +
               `Duplicate entries are not allowed.`
         );
-        err.statusCode = 409; // Conflict
+        err.statusCode = 409;
         throw err;
       }
 
       db.centres.push(newCentre);
-      writeDB(db);
+      await writeDB(db);
     });
 
     console.log(`  ✓ New centre saved: ${normName} (${normCity}, ${normCountry})`);
@@ -216,13 +230,11 @@ app.post('/api/centres', async (req, res) => {
 
   } catch (e) {
     console.error(e);
-    // C-1 FIX — use e.statusCode (set by duplicate-check) so 409 Conflict
-    // is returned instead of 500 when the centre already exists.
     res.status(e.statusCode || 500).json({ error: e.message });
   }
 });
 
-/* PUT /api/centres/:id/depanel  — de-panel a programme from an existing centre */
+/* PUT /api/centres/:id/depanel */
 app.put('/api/centres/:id/depanel', async (req, res) => {
   try {
     const { programme, remarks } = req.body;
@@ -230,9 +242,8 @@ app.put('/api/centres/:id/depanel', async (req, res) => {
 
     let updatedCentre;
 
-    // FIX #2 — queue the entire read-modify-write atomically
-    await withDB(() => {
-      const db     = readDB();
+    await withDB(async () => {
+      const db     = await readDB();
       const centre = db.centres.find(c => c.id === req.params.id);
       if (!centre) {
         const err = new Error('Centre not found');
@@ -240,30 +251,25 @@ app.put('/api/centres/:id/depanel', async (req, res) => {
         throw err;
       }
 
-      // FIX #3 — validate that the programme actually exists on this centre
-      // before de-panelling it, so we don't create orphaned programStatuses keys.
       if (!centre.programs.includes(programme)) {
         const err = new Error(`Programme "${programme}" is not listed for this centre`);
         err.statusCode = 400;
         throw err;
       }
 
-      // Mark the programme as De-panelled
       centre.programStatuses[programme] = 'De-panelled';
 
-      // Append reason to remarks if provided
       if (remarks) {
         centre.remarks = (centre.remarks ? centre.remarks + '\n' : '')
                        + `De-panel [${programme}]: ${remarks}`;
       }
 
-      // If every programme is now De-panelled, promote top-level status
       const allDepanelled = centre.programs.every(
         p => (centre.programStatuses[p] || centre.status) === 'De-panelled'
       );
       if (allDepanelled) centre.status = 'De-panelled';
 
-      writeDB(db);
+      await writeDB(db);
       updatedCentre = centre;
     });
 
@@ -272,12 +278,11 @@ app.put('/api/centres/:id/depanel', async (req, res) => {
 
   } catch (e) {
     console.error(e);
-    const status = e.statusCode || 500;
-    res.status(status).json({ error: e.message });
+    res.status(e.statusCode || 500).json({ error: e.message });
   }
 });
 
-/* PUT /api/centres/:id/reempanel  — restore a de-panelled programme back to active */
+/* PUT /api/centres/:id/reempanel */
 app.put('/api/centres/:id/reempanel', async (req, res) => {
   try {
     const { programme, remarks } = req.body;
@@ -285,8 +290,8 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
 
     let updatedCentre;
 
-    await withDB(() => {
-      const db     = readDB();
+    await withDB(async () => {
+      const db     = await readDB();
       const centre = db.centres.find(c => c.id === req.params.id);
       if (!centre) {
         const err = new Error('Centre not found');
@@ -306,10 +311,8 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
         throw err;
       }
 
-      // Restore this programme to New Empanelment
       centre.programStatuses[programme] = 'New Empanelment';
 
-      // If no programmes are De-panelled anymore, restore top-level status
       const stillDepanelled = centre.programs.some(
         p => (centre.programStatuses[p] || centre.status) === 'De-panelled'
       );
@@ -320,7 +323,7 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
                        + `Re-empanelled [${programme}]: ${remarks}`;
       }
 
-      writeDB(db);
+      await writeDB(db);
       updatedCentre = centre;
     });
 
@@ -333,35 +336,26 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
   }
 });
 
-// ── Startup: normalise any lowercase geographic fields left by manual entry ───
-// Runs once on every server start — safe to run repeatedly (idempotent).
-(function normaliseSavedData() {
+// ── Startup: normalise capitalisation on saved data ───────────────────────────
+(async function normaliseSavedData() {
   try {
     const toTC = s => (s || '').trim().replace(/\b\w/g, c => c.toUpperCase());
-    const db   = readDB();
+    const db   = await readDB();
     let changed = 0;
     db.centres.forEach(c => {
       let dirty = false;
 
-      // Fix capitalisation — only update a field if it had a real value;
-      // never substitute sourceCountry into country when country is absent
-      // (M-2 FIX: previous code used `c.country || c.sourceCountry` which
-      // would overwrite a legitimately empty country with the sourceCountry).
       const fixedCity   = toTC(c.city);
       const fixedSource = toTC(c.sourceCountry);
       const fixedName   = toTC(c.name);
       if (c.city !== fixedCity)           { c.city          = fixedCity;   dirty = true; }
       if (c.sourceCountry !== fixedSource){ c.sourceCountry = fixedSource; dirty = true; }
       if (c.name !== fixedName)           { c.name          = fixedName;   dirty = true; }
-      // Only touch country if it already has a value
       if (c.country) {
         const fixedCountry = toTC(c.country);
         if (c.country !== fixedCountry)   { c.country = fixedCountry;      dirty = true; }
       }
 
-      // Fix validation status — entries added via the form by the operations
-      // team are pre-verified; replace the old "To Validate / Manual entry"
-      // placeholder values with the correct verified status.
       if (c.validationChannel === 'Manual entry') {
         c.validationStatus  = 'Verified by operations team';
         c.validationChannel = 'Internal verification';
@@ -371,11 +365,10 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
       if (dirty) changed++;
     });
     if (changed > 0) {
-      writeDB(db);
-      console.log(`  ✓ Normalised capitalisation on ${changed} record(s) in data.json`);
+      await writeDB(db);
+      console.log(`  ✓ Normalised capitalisation on ${changed} record(s)`);
     }
   } catch (e) {
-    // L-1 FIX — distinguish missing file (expected on first run) from real errors
     if (e.code === 'ENOENT') {
       console.warn('  ℹ data.json not found — will be created on first entry.');
     } else {
@@ -384,12 +377,16 @@ app.put('/api/centres/:id/reempanel', async (req, res) => {
   }
 })();
 
-// ── Start server ──────────────────────────────────────────────────────────────
+// ── Export for Vercel (serverless); listen only when run directly ─────────────
 
-app.listen(PORT, () => {
-  console.log('\n  ┌────────────────────────────────────────────────┐');
-  console.log(`  │  Visa Medical Intelligence Platform            │`);
-  console.log(`  │  http://localhost:${PORT}                         │`);
-  console.log('  └────────────────────────────────────────────────┘');
-  console.log('\n  Open the link above in your browser.\n');
-});
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log('\n  ┌────────────────────────────────────────────────┐');
+    console.log(`  │  Visa Medical Intelligence Platform            │`);
+    console.log(`  │  http://localhost:${PORT}                         │`);
+    console.log('  └────────────────────────────────────────────────┘');
+    console.log('\n  Open the link above in your browser.\n');
+  });
+}
