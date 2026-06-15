@@ -307,15 +307,13 @@
       "state": "Tamil Nadu",
       "address": "Apollo Medical Centre, VCT building, 36/2, Gandhi Mandapam road and Ranjith road, Opposite to AMM matriculation school, Kotturpuram, Chennai, Tamilnadu, India - 600085",
       "programs": [
-        "South Korea",
-        "UK"
+        "South Korea"
       ],
       "programStatuses": {
-        "South Korea": "Active",
-        "UK": "Active"
+        "South Korea": "Active"
       },
-      "m5PanelCount": 2,
-      "totalEmpanelment": 2,
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "044 24471212, 044 24472477, 044 61151030, 044 48581034, 044 48581035, +91 7358113422",
       "email": "Immigration_kotturpuram@apollohospitals.com",
       "website": "",
@@ -503,7 +501,7 @@
       "name": "Global Emigration Medical Services (GEMS)",
       "category": "Standalone Centre",
       "sourceCountry": "India",
-      "city": "Navi Mumbai",
+      "city": "Mumbai",
       "state": "Maharashtra",
       "address": "14, Jagatguru Aadi Shankracharya Marg, Nerul East, Sector 9, Navi Mumbai\nMaharashtra 400706",
       "programs": [
@@ -690,16 +688,14 @@
       "address": "Vaishnodevi Circle, S.G Road, Ahmedabad 382421, Gujarat, India",
       "programs": [
         "Australia",
-        "Canada",
-        "UK"
+        "Canada"
       ],
       "programStatuses": {
         "Australia": "Active",
-        "Canada": "Active",
-        "UK": "Active"
+        "Canada": "Active"
       },
-      "m5PanelCount": 3,
-      "totalEmpanelment": 3,
+      "m5PanelCount": 2,
+      "totalEmpanelment": 2,
       "contact": "+91 7966 770077, +91 9824 053196",
       "email": "tbs.kdhospital@gmail.com",
       "website": "kdhospital.co.in",
@@ -721,15 +717,13 @@
       "state": "Gujarat",
       "address": "Mann Complex, Opp. Shree Ram Petrol Pump, Anand Mahal Road, Adajan, Surat 395009",
       "programs": [
-        "Australia",
-        "UK"
+        "Australia"
       ],
       "programStatuses": {
-        "Australia": "Active",
-        "UK": "Active"
+        "Australia": "Active"
       },
-      "m5PanelCount": 2,
-      "totalEmpanelment": 2,
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 261 279 0202, +91 987 976 7977",
       "email": "apollosurat.immigration@gmail.com",
       "website": "apollosurat.com",
@@ -902,17 +896,21 @@
       "city": "Kochi",
       "state": "Kerala",
       "address": "Lourdes Hospital Rd, Near, Pachalam, Ernakulam, Kerala 682 012",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 484 4123456, +91 0484 4123555",
       "email": "global@lourdeshospital.in",
       "website": "lourdeshospital.in",
       "lat": 9.9312,
       "lng": 76.2673,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -927,13 +925,15 @@
       "state": "Kerala",
       "address": "35/1556 C, Kattiparambil House, Opp. Popular Service Station, Mamangalam Palarivattom P.O. Kochi- 682 025, Kerala",
       "programs": [
+        "UK",
         "New Zealand"
       ],
       "programStatuses": {
+        "UK": "Active",
         "New Zealand": "Active"
       },
-      "m5PanelCount": 1,
-      "totalEmpanelment": 1,
+      "m5PanelCount": 2,
+      "totalEmpanelment": 2,
       "contact": "+91 484 2801104, +91 9496 502270",
       "email": "divinemedicalcentrekochi@gmail.com",
       "website": "divinemedicalcentre.in",
@@ -954,17 +954,21 @@
       "city": "Changanassery",
       "state": "Kerala",
       "address": "Chethipuzha, Changanassery, Kerala 686 104",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 481 2720084, +91 481 272 0005, +91 481 272 1046, +91 481 272 1533",
       "email": "stthomashospital1945@gmail.com",
       "website": "",
       "lat": 9.442,
       "lng": 76.536,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1118,17 +1122,21 @@
       "city": "Lucknow",
       "state": "Uttar Pradesh",
       "address": "Sect-10, Janakipuram Extension, Sitapur Road, Lucknow-226031",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 0522 2771940",
       "email": "Immigration@cdri.res.in",
       "website": "cdri.res.in",
       "lat": 26.8467,
       "lng": 80.9462,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1142,17 +1150,21 @@
       "city": "Indore",
       "state": "Madhya Pradesh",
       "address": "Vijay Nagar Square, Indore 452010",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0731 4777777",
       "email": "Immigration.indore@apollohospitals.com",
       "website": "",
       "lat": 22.7196,
       "lng": 75.8577,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1166,17 +1178,21 @@
       "city": "Indore",
       "state": "Madhya Pradesh",
       "address": "Indore-Ujjain State Highway, Near MR-10 crossing, Indore- 453555",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 731 4231011, +91 731 4231016",
       "email": "internationaldesk@synergyindia.net",
       "website": "synergyindia.net",
       "lat": 22.7196,
       "lng": 75.8577,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1190,17 +1206,21 @@
       "city": "Indore",
       "state": "Madhya Pradesh",
       "address": "Khasra No 94/95/96, Near Bypass, Village Bangada, Ratlam Indore Rd, Indore, Madhya Pradesh 452010",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 731 4747474",
       "email": "Immigration.indore@medanta.org",
       "website": "medanta.org",
       "lat": 22.7196,
       "lng": 75.8577,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1214,17 +1234,21 @@
       "city": "Thane",
       "state": "Maharashtra",
       "address": "E9- Road No 27, MIDC Wagle Estate, Thane 400604",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "022 2172 5555, +91 9619777252, +91 740 043 1111",
       "email": "immigration@jupiterhospital.com",
       "website": "jupiterhospital.com",
       "lat": 19.2183,
       "lng": 72.9781,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1238,17 +1262,21 @@
       "city": "Mumbai",
       "state": "Maharashtra",
       "address": "Swami Vivekanand Road, Vile Parle (West), Mumbai 400056",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "022 6826 7000, 022 6836 7000",
       "email": "Mahesh.mandekar@nanavatimaxhospital.org",
       "website": "nanavatimaxhospital.org",
       "lat": 19.076,
       "lng": 72.8777,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1262,17 +1290,21 @@
       "city": "Pune",
       "state": "Maharashtra",
       "address": "30-C, Erandwane, Karve Road, Pune 411004",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 202 543 8700, +91 202 543 8600",
       "email": "shweta.bhagwat@sahyadrihospitals.com",
       "website": "sahyadrihospital.com",
       "lat": 18.5204,
       "lng": 73.8567,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1286,17 +1318,21 @@
       "city": "Mumbai",
       "state": "Maharashtra",
       "address": "Near Chhatrapati Shivaji Maharaj Terminus, Mumbai 400001",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "022 22620242, 022 22620252",
       "email": "ggmpapplicant@yahoo.com",
       "website": "",
       "lat": 19.076,
       "lng": 72.8777,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1310,17 +1346,21 @@
       "city": "Mumbai",
       "state": "Maharashtra",
       "address": "Shop no. 14 and 15, Kamdar Shopping Centre, 89A Dr Radhakrishna Road, Opp Podar Hospital, Behind Swaminarayan Mandir, Matunga Mumbai 400019",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "022 24183030",
       "email": "immiggvs@gmail.com, globalthane@gmail.com",
       "website": "",
       "lat": 19.076,
       "lng": 72.8777,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1450,17 +1490,21 @@
       "city": "Nagpur",
       "state": "Maharashtra",
       "address": "30, Central Bazar Rd, NIT Commercial Complex, Ramdaspeth, Nagpur, Maharashtra 440010",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 712 666 9666",
       "email": "lmsmeditrina@gmail.com",
       "website": "",
       "lat": 21.1458,
       "lng": 79.0882,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1474,17 +1518,21 @@
       "city": "Bhubaneshwar",
       "state": "Orissa",
       "address": "Plot No 251, Sainik School Road, Unit 15, Bhubaneshwar, Odisha 751005",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0674 666 1081, 0674 230 0485",
       "email": "visamedicals_bbsr@apollohospitals.com",
       "website": "",
       "lat": 20.2961,
       "lng": 85.8245,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1498,17 +1546,21 @@
       "city": "Jalandhar",
       "state": "Punjab",
       "address": "71, 72 New Ruby Lane, Guru Nanak Nagar, Cool Road, Near Bus Stand, Jalandhar, Punjab, India",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0181 4690 000",
       "email": "immigration@newrubyhospital.com",
       "website": "newrubyhospital.com",
       "lat": 31.326,
       "lng": 75.5762,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1522,17 +1574,21 @@
       "city": "Jaipur",
       "state": "Rajasthan",
       "address": "SP-4 & 6, Malviya Industrial Area, Malviya Nagar, Jaipur 302017",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0141 666 3727, 0141 666 3728",
       "email": "info@apexhospital.in",
       "website": "apexhospital.in",
       "lat": 26.9124,
       "lng": 75.7873,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1546,17 +1602,21 @@
       "city": "Jaipur",
       "state": "Rajasthan",
       "address": "J6, Govind Marg, Near, Jawahar Circle, Malviya Nagar, Jaipur, Rajasthan 302017",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0141 719 1750, 0141 719 1700",
       "email": "opdcoordinator@eternalheart.org",
       "website": "eternalheart.org",
       "lat": 26.9124,
       "lng": 75.7873,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1570,17 +1630,21 @@
       "city": "Puducherry",
       "state": "Tamil Nadu",
       "address": "Kirumambakkam, Near, Irumbai Main Rd, East Coast Road, Puducherry, Tamil Nadu 607402",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 413 4222 222, +91 89403 42222",
       "email": "satishc_yr@apollohospitals.com",
       "website": "apollohospitals.com",
       "lat": 11.9416,
       "lng": 79.8083,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1594,17 +1658,21 @@
       "city": "Puducherry",
       "state": "Tamil Nadu",
       "address": "No.20, Vidya Nagar 4th Cross Road, Near Airport, Sangarapuram, Pondicherry-605 010",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "00 91 413 2000 993, 00 91 413 2000 944",
       "email": "infoimmigration4@gmail.com",
       "website": "divinemedicalcentre.in",
       "lat": 11.9416,
       "lng": 79.8083,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1646,17 +1714,21 @@
       "city": "Kanpur",
       "state": "Uttar Pradesh",
       "address": "A-2 Sarvodaya Nagar, Kanpur, Uttar Pradesh, 208 005",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91 80090 00861, +91 512 3911 111",
       "email": "Info@regencyhealthcare.in",
       "website": "regencyhealthcare.in",
       "lat": 26.4499,
       "lng": 80.3319,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -1670,17 +1742,21 @@
       "city": "Kanpur",
       "state": "Uttar Pradesh",
       "address": "117/ L/ 450A Naveen Nagar, Kakadeo, Kanpur, Uttar Pradesh 208025",
-      "programs": [],
-      "programStatuses": {},
-      "m5PanelCount": 0,
-      "totalEmpanelment": 0,
+      "programs": [
+        "UK"
+      ],
+      "programStatuses": {
+        "UK": "Active"
+      },
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "0512 252 6430",
       "email": "immigration@leelavatihospital.com",
       "website": "leelavatihospital.com",
       "lat": 26.4499,
       "lng": 80.3319,
       "coordConfidence": "city-level coordinate",
-      "status": "Not currently approved",
+      "status": "Active",
       "validationStatus": "Priority for official validation refresh",
       "validationChannel": "Program-specific live database / official page",
       "remarks": "Listed in internal Sep 2025 workbook; verify active/de-paneled/new status during official refresh.",
@@ -3777,15 +3853,13 @@
       "state": "Maharashtra",
       "address": "Ground  Floor, Vighnesh  Square, opposite  Dinanath  High School,  Dhantoli, Nagpur",
       "programs": [
-        "Malaysia",
-        "UK"
+        "Malaysia"
       ],
       "programStatuses": {
-        "Malaysia": "Active",
-        "UK": "Active"
+        "Malaysia": "Active"
       },
-      "m5PanelCount": 2,
-      "totalEmpanelment": 2,
+      "m5PanelCount": 1,
+      "totalEmpanelment": 1,
       "contact": "+91-87902-09105",
       "email": "",
       "website": "",
@@ -12021,15 +12095,13 @@
       "state": "Maharashtra",
       "address": "First Floor, Mahila Vikas Mandal Building, Plot 1, Jagannath Bhosale Road Near Mantralaya, Nariman Point Mumbai 400-021, India.",
       "programs": [
-        "WAFID",
-        "UK"
+        "WAFID"
       ],
       "programStatuses": {
-        "WAFID": "Active",
-        "UK": "Active"
+        "WAFID": "Active"
       },
-      "m5PanelCount": 2,
-      "totalEmpanelment": 2,
+      "m5PanelCount": 0,
+      "totalEmpanelment": 1,
       "contact": "+912222022060",
       "email": "",
       "website": "",
@@ -20277,8 +20349,8 @@
       "remarks": "No M5 panel flag in internal list; lower immediate M5 relevance or non-M5 only."
     }
   ],
-  "generated": "2026-06-15",
-  "sourceFile": "gov.uk India TB clinic list (8 May 2026) aligned over Visa_Medical_Centres_for_M5_Analysis_-_Updated_Workbook_26_05.xlsx",
+  "generated": "2026-05-30",
+  "sourceFile": "Visa_Medical_Centres_for_M5_Analysis_-_Updated_Workbook_26_05.xlsx",
   "destinations": [
     {
       "name": "Australia",
