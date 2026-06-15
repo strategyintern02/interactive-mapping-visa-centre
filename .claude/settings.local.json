@@ -9,7 +9,8 @@
       "PowerShell(python3 --version 2>&1)",
       "Bash(node _audit_india.js)",
       "Bash(node -e \"const d=require\\('C:/Users/strategy.intern02/Downloads/interactive-mapping-visa-centre/data.json'\\); console.log\\('Top keys:', Object.keys\\(d\\)\\);\")",
-      "Bash(curl -s -L --max-time 60 \"https://web.archive.org/web/2022id_/https://www.gov.uk/tb-test-visa\")"
+      "Bash(curl -s -L --max-time 60 \"https://web.archive.org/web/2022id_/https://www.gov.uk/tb-test-visa\")",
+      "Bash(node -e ' *)"
     ]
   }
 }
