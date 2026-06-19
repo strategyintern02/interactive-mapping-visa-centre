@@ -1882,6 +1882,7 @@
             <button class="tb-btn active" data-layer="markers">Markers</button>
             <button class="tb-btn" data-layer="heat">Heatmap</button>
             <button class="tb-btn" data-layer="concentration">Concentration</button>
+            <button class="tb-btn" data-layer="demand" title="WAFID city demand (source-country)">Demand</button>
           </div>
           <div class="tb-group" role="group" aria-label="Region">
             <button class="tb-btn active" data-region="global">Global</button>
@@ -2070,7 +2071,7 @@
         },
         selected: null,                       // single centre id
         compare: [],                          // up to 3 centre ids
-        mapLayer: 'markers',                  // markers | heat | concentration
+        mapLayer: 'markers',                  // markers | heat | concentration | demand
         region: 'global',
         trayCollapsed: false,
         _depanelSelectedId:   null,           // FIX #21 — declare here so boot order doesn't matter
@@ -2170,7 +2171,7 @@
       }
 
       /* ----- 5. MAP LAYER ----- */
-      let map, clusterGroup, heatLayer, concentrationLayer, markerIndex = {};
+      let map, clusterGroup, heatLayer, concentrationLayer, demandLayer, markerIndex = {};
 
       function initMap() {
         map = L.map('map', { worldCopyJump: true, minZoom: 2, zoomControl: true })
@@ -2204,6 +2205,7 @@
         clusterGroup.clearLayers();
         if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
         if (concentrationLayer) { map.removeLayer(concentrationLayer); concentrationLayer = null; }
+        if (demandLayer) { map.removeLayer(demandLayer); demandLayer = null; }
         markerIndex = {};
 
         if (state.mapLayer === 'markers') {
@@ -2341,7 +2343,60 @@
             concentrationLayer.addLayer(lblMarker);
           });
           concentrationLayer.addTo(map);
+        } else if (state.mapLayer === 'demand') {
+          // WAFID source-country demand layer. Reads state.data.wafidDemand (partial dataset).
+          // Cities are color-coded High/Moderate/Low; WAFID centres in cities not on the
+          // demand list are shown as a faint "no data" overlay so the absence is visible.
+          demandLayer = L.layerGroup();
+          const dd = state.data.wafidDemand;
+          if (dd && Array.isArray(dd.cities)) {
+            const cf = state.filters.countries;
+            const filterActive = cf && cf.size > 0;
+            const colorHex = { high: '#c53030', moderate: '#d97706', low: '#2f8a3e' };
+            const demandKeys = new Set();
+            dd.cities.forEach(dc => {
+              if (filterActive && !cf.has(dc.country)) return;
+              demandKeys.add(dc.country + '|' + dc.city);
+              const fill = colorHex[dc.demand] || '#9ca3af';
+              const ring = L.circleMarker([dc.lat, dc.lng], {
+                radius: 11, color: '#1f2937', weight: 1.5, opacity: .9,
+                fillColor: fill, fillOpacity: .55
+              });
+              ring.bindPopup(`
+                <div class="popup-title">${escapeHTML(dc.city)}, ${escapeHTML(dc.country)}</div>
+                <div class="popup-meta">WAFID source-country demand: <b style="text-transform:uppercase;color:${fill}">${escapeHTML(dc.demand)}</b></div>
+              `, { maxWidth: 280 });
+              demandLayer.addLayer(ring);
+            });
+            // "No data" overlay — WAFID centres whose city is not on the published demand list.
+            const noData = {};
+            centres.forEach(c => {
+              if (!c.programs.includes('WAFID') || c.lat == null) return;
+              const k = c.sourceCountry + '|' + c.city;
+              // Track demand keys globally (across all source countries) so "no data" only
+              // covers cities truly absent from the published list, not those filtered out.
+              const inDemand = dd.cities.some(dc => dc.country === c.sourceCountry && dc.city === c.city);
+              if (inDemand) return;
+              if (filterActive && !cf.has(c.sourceCountry)) return;
+              if (!noData[k]) noData[k] = { city: c.city, country: c.sourceCountry, lat: c.lat, lng: c.lng, count: 0 };
+              noData[k].count++;
+            });
+            Object.values(noData).forEach(nd => {
+              const ring = L.circleMarker([nd.lat, nd.lng], {
+                radius: 6, color: '#9ca3af', weight: 1, opacity: .55,
+                fillColor: '#e5e7eb', fillOpacity: .4
+              });
+              ring.bindPopup(`
+                <div class="popup-title">${escapeHTML(nd.city)}, ${escapeHTML(nd.country)}</div>
+                <div class="popup-meta">No WAFID demand published · ${nd.count} WAFID centre${nd.count === 1 ? '' : 's'} here</div>
+              `, { maxWidth: 280 });
+              demandLayer.addLayer(ring);
+            });
+          }
+          demandLayer.addTo(map);
         }
+
+        updateMapLegend();
 
         // Update toolbar counts
         const cities = new Set(centres.map(c => c.sourceCountry + '|' + c.city));
@@ -2350,6 +2405,46 @@
         $('#totalCentres').textContent = fmt(state.data.centres.length);
         $('#visibleCities').textContent = fmt(cities.size);
         $('#visibleCountries').textContent = fmt(countries.size);
+      }
+
+      function updateMapLegend() {
+        const el = $('#mapLegend');
+        if (!el) return;
+        if (state.mapLayer === 'demand') {
+          const dd = state.data && state.data.wafidDemand;
+          const cf = state.filters.countries;
+          const filterActive = cf && cf.size > 0;
+          const cities = dd && Array.isArray(dd.cities) ? dd.cities : [];
+          const inScope = cities.filter(c => !filterActive || cf.has(c.country));
+          const nHigh     = inScope.filter(c => c.demand === 'high').length;
+          const nModerate = inScope.filter(c => c.demand === 'moderate').length;
+          const nLow      = inScope.filter(c => c.demand === 'low').length;
+          // Count "no data" cities — WAFID centre cities that aren't on the published list
+          const demandKeyAll = new Set(cities.map(c => c.country + '|' + c.city));
+          const noDataSet = new Set();
+          (state.data.centres || []).forEach(c => {
+            if (!c.programs.includes('WAFID')) return;
+            const k = c.sourceCountry + '|' + c.city;
+            if (demandKeyAll.has(k)) return;
+            if (filterActive && !cf.has(c.sourceCountry)) return;
+            noDataSet.add(k);
+          });
+          const note = dd && dd.note ? escapeHTML(dd.note) : 'Partial dataset — only cities WAFID publishes.';
+          el.innerHTML = `
+            <h4>WAFID Demand
+              <span class="lg-info" title="${note}" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#9ca3af;color:#fff;font-size:9px;font-weight:700;margin-left:4px;cursor:help">i</span>
+            </h4>
+            <div class="lg-row"><span class="lg-dot" style="background:#c53030"></span> High <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nHigh}</span></div>
+            <div class="lg-row"><span class="lg-dot" style="background:#d97706"></span> Moderate <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nModerate}</span></div>
+            <div class="lg-row"><span class="lg-dot" style="background:#2f8a3e"></span> Low <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nLow}</span></div>
+            <div class="lg-row"><span class="lg-dot" style="background:#e5e7eb;border:1px solid #9ca3af"></span> No data <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${noDataSet.size}</span></div>`;
+        } else {
+          el.innerHTML = `
+            <h4>Status</h4>
+            <div class="lg-row"><span class="lg-dot" style="background:var(--st-active)"></span> Active</div>
+            <div class="lg-row"><span class="lg-dot" style="background:var(--st-new)"></span> New empanelment</div>
+            <div class="lg-row"><span class="lg-dot" style="background:var(--st-depanel)"></span> De-panelled</div>`;
+        }
       }
 
       function cityPopupHTML(g) {
@@ -2865,6 +2960,38 @@
     </table></div>`;
         }
 
+        // ── Section 2b: WAFID Demand by Source Country ───────────────────
+        const dd = state.data && state.data.wafidDemand;
+        if (dd && Array.isArray(dd.cities) && dd.cities.length) {
+          const byCountry = {};
+          dd.cities.forEach(c => {
+            if (!byCountry[c.country]) byCountry[c.country] = { high: 0, moderate: 0, low: 0, total: 0 };
+            byCountry[c.country][c.demand] = (byCountry[c.country][c.demand] || 0) + 1;
+            byCountry[c.country].total++;
+          });
+          const demandRows = Object.entries(byCountry).sort((a, b) => b[1].total - a[1].total);
+          const noteEsc = escapeHTML(dd.note || 'Partial dataset — only cities WAFID publishes.');
+          html += `<div class="section-title">WAFID Demand by Source Country
+            <span class="lg-info" title="${noteEsc}" style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:#9ca3af;color:#fff;font-size:9px;font-weight:700;margin-left:6px;cursor:help;vertical-align:middle">i</span>
+          </div>
+    <div class="tbl-scroll"><table class="tbl">
+      <thead><tr>
+        <th>Source Country</th>
+        <th class="num" style="color:#c53030">High</th>
+        <th class="num" style="color:#d97706">Moderate</th>
+        <th class="num" style="color:#2f8a3e">Low</th>
+        <th class="num">Cities</th>
+      </tr></thead>
+      <tbody>${demandRows.map(([country, v]) => `<tr>
+        <td><button class="tbl-link" data-fcountry-demand="${escapeHTML(country)}">${escapeHTML(country)}</button></td>
+        <td class="num" style="color:#c53030">${v.high || '—'}</td>
+        <td class="num" style="color:#d97706">${v.moderate || '—'}</td>
+        <td class="num" style="color:#2f8a3e">${v.low || '—'}</td>
+        <td class="num">${v.total}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+        }
+
         // ── Section 3: City Concentration ────────────────────────────────
         const cityMap = {};
         visible.forEach(c => {
@@ -2902,6 +3029,15 @@
         });
         // Wire spotlight peer links
         $$('#paneInsights .tbl-link[data-cid]').forEach(b => b.onclick = () => selectCentre(b.dataset.cid));
+        // Wire demand-row country links: filter to that country AND switch to Demand layer
+        $$('#paneInsights .tbl-link[data-fcountry-demand]').forEach(b => b.onclick = () => {
+          const country = b.dataset.fcountryDemand;
+          state.filters.countries = new Set([country]);
+          state.mapLayer = 'demand';
+          $$('.map-toolbar .tb-group[aria-label="Map layer"] .tb-btn').forEach(x => x.classList.toggle('active', x.dataset.layer === 'demand'));
+          syncFilterUI();
+          update();
+        });
       }
 
       function buildInsightSpotlight(c, all, visible) {

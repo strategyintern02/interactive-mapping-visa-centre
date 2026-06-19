@@ -133,7 +133,7 @@ app.get('/api/centres', async (req, res) => {
       if (c.lat  !== null && typeof c.lat  !== 'number') c.lat  = parseFloat(c.lat)  || null;
       if (c.lng  !== null && typeof c.lng  !== 'number') c.lng  = parseFloat(c.lng)  || null;
     });
-    res.json({ centres: db.centres });
+    res.json({ centres: db.centres, wafidDemand: db.wafidDemand || null });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Could not read database: ' + e.message });
