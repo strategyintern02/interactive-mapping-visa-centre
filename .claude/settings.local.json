@@ -10,7 +10,13 @@
       "Bash(node _audit_india.js)",
       "Bash(node -e \"const d=require\\('C:/Users/strategy.intern02/Downloads/interactive-mapping-visa-centre/data.json'\\); console.log\\('Top keys:', Object.keys\\(d\\)\\);\")",
       "Bash(curl -s -L --max-time 60 \"https://web.archive.org/web/2022id_/https://www.gov.uk/tb-test-visa\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(grep -v '\\\\.git$')",
+      "Bash(tasklist /FI \"PID eq 2464\")",
+      "Bash(taskkill /F /PID 2464)",
+      "PowerShell(Get-Process -Id 2464 -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 2464 -Force -ErrorAction SilentlyContinue)"
     ]
   }
 }

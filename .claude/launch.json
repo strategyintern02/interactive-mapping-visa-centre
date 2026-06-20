@@ -4,7 +4,7 @@
     {
       "name": "visa-platform",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["server.js"],
+      "runtimeArgs": ["server/api.js"],
       "port": 3000
     }
   ]

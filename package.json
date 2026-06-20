@@ -2,10 +2,10 @@
   "name": "visa-medical-intelligence-platform",
   "version": "1.0.0",
   "description": "Visa Medical Centre Intelligence Platform",
-  "main": "server.js",
+  "main": "server/api.js",
   "engines": { "node": ">=18.0.0" },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server/api.js"
   },
   "dependencies": {
     "express": "^4.18.2"

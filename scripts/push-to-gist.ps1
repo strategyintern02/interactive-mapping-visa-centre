@@ -21,9 +21,10 @@ if (-not $Token)  { Write-Error "Missing Token. Pass -Token or set `$env:GITHUB_
 $GistId = $GistId.Trim()
 $Token  = $Token.Trim()
 
-$here = $PSScriptRoot
-$dataPath     = Join-Path $here "data.json"
-$snapshotPath = Join-Path $here "data-snapshot.json"
+# Script lives in scripts/; data files live in ../data/
+$root         = Split-Path $PSScriptRoot -Parent
+$dataPath     = Join-Path $root "data\data.json"
+$snapshotPath = Join-Path $root "data\data-snapshot.json"
 
 if (-not (Test-Path $dataPath))     { Write-Error "data.json not found at $dataPath"; exit 1 }
 if (-not (Test-Path $snapshotPath)) { Write-Error "data-snapshot.json not found at $snapshotPath"; exit 1 }

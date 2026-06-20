@@ -683,10 +683,10 @@
     }
 
     .rail-tab {
-      padding: 9px 14px;
-      font-size: 11px;
+      padding: 9px 7px;
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: .05em;
+      letter-spacing: .03em;
       color: var(--muted);
       border: none;
       background: transparent;
@@ -695,7 +695,9 @@
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
-      gap: 6px
+      gap: 4px;
+      flex: 1 1 0;
+      justify-content: center
     }
 
     .rail-tab:hover {
@@ -1233,6 +1235,256 @@
       color: var(--muted);
       font-weight: 600;
       margin: 12px 0 6px
+    }
+
+    /* =========================================================
+   WAFID DEMAND PANE
+   ========================================================= */
+    .wf-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 10px 12px 6px;
+      border-bottom: 1px solid var(--border)
+    }
+    .wf-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+      background: #fff
+    }
+    .wf-toggle button {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      cursor: pointer
+    }
+    .wf-toggle button.active {
+      background: var(--accent);
+      color: #fff
+    }
+    .wf-toolbar .input {
+      flex: 1;
+      min-width: 140px
+    }
+    .wf-pills {
+      display: flex;
+      gap: 4px;
+      padding: 6px 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: #fafbfc
+    }
+    .wf-pill {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted)
+    }
+    .wf-pill .wf-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block
+    }
+    .wf-pill:hover {
+      background: var(--bg-soft)
+    }
+    .wf-pill.active {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text)
+    }
+    .wf-banner {
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      padding: 7px 12px;
+      background: #f3f4f6;
+      color: var(--muted);
+      font-size: 10.5px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.4
+    }
+    .wf-banner .wf-info-icon {
+      flex: 0 0 auto;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #9ca3af;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px
+    }
+    .wf-kpis {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      flex-wrap: wrap
+    }
+    .wf-kpi {
+      flex: 1;
+      min-width: 60px;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #fff
+    }
+    .wf-kpi .wf-kpi-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      font-weight: 600
+    }
+    .wf-kpi .wf-kpi-val {
+      font-size: 18px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      margin-top: 2px
+    }
+    .wf-empty {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px
+    }
+    /* List view */
+    .wf-group-head {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px 8px 8px;
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      gap: 6px
+    }
+    .wf-group-head .wf-caret {
+      width: 14px;
+      display: inline-flex;
+      justify-content: center;
+      transition: transform .15s ease;
+      color: var(--muted)
+    }
+    .wf-group-head.collapsed .wf-caret {
+      transform: rotate(-90deg)
+    }
+    .wf-group-head .wf-group-count {
+      margin-left: auto;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 10px;
+      font-variant-numeric: tabular-nums
+    }
+    .wf-group-body {
+      display: block
+    }
+    .wf-group-head.collapsed + .wf-group-body {
+      display: none
+    }
+    .wf-city {
+      display: flex;
+      align-items: center;
+      padding: 7px 12px 7px 26px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      gap: 10px
+    }
+    .wf-city:hover {
+      background: #f8fafc
+    }
+    .wf-city-name {
+      flex: 1;
+      color: var(--text);
+      font-weight: 500
+    }
+    .wf-badge {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 2px 7px;
+      border-radius: 10px;
+      color: #fff;
+      flex: 0 0 auto
+    }
+    .wf-badge-high { background: #c53030 }
+    .wf-badge-moderate { background: #d97706 }
+    .wf-badge-low { background: #2f8a3e }
+    .wf-locate {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 2px 6px;
+      color: var(--muted);
+      font-size: 13px;
+      border-radius: 4px
+    }
+    .wf-locate:hover {
+      background: var(--bg-soft);
+      color: var(--accent)
+    }
+    /* Table view */
+    .wf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px
+    }
+    .wf-table th,
+    .wf-table td {
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border)
+    }
+    .wf-table th {
+      background: var(--bg-soft);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      cursor: pointer;
+      user-select: none
+    }
+    .wf-table th:hover {
+      color: var(--text)
+    }
+    .wf-table th.sorted::after {
+      content: ' ▾';
+      color: var(--accent)
+    }
+    .wf-table th.sorted-asc::after {
+      content: ' ▴';
+      color: var(--accent)
+    }
+    .wf-table tbody tr:hover {
+      background: #f8fafc
     }
 
     /* =========================================================
@@ -1922,6 +2174,7 @@
           <button class="rail-tab" data-tab="insights">Insights</button>
           <button class="rail-tab" data-tab="country">Country</button>
           <button class="rail-tab" data-tab="update">Update</button>
+          <button class="rail-tab" data-tab="wafid" title="WAFID demand data">WAFID</button>
           <button class="rail-tab" data-tab="changes">Changes <span class="badge badge-new"
               id="badgeChanges"></span></button>
         </div>
@@ -2002,6 +2255,9 @@
           <!-- UPDATE pane -->
           <div class="rail-pane" data-pane="update" id="paneUpdate"></div>
 
+          <!-- WAFID DEMAND pane -->
+          <div class="rail-pane" data-pane="wafid" id="paneWafid"></div>
+
         </div>
       </aside>
     </div>
@@ -2072,6 +2328,11 @@
         selected: null,                       // single centre id
         compare: [],                          // up to 3 centre ids
         mapLayer: 'markers',                  // markers | heat | concentration | demand
+        wafidView: 'list',                    // list | table
+        wafidSearch: '',
+        wafidLevel: '',                       // '' | high | moderate | low
+        wafidExpanded: new Set(),             // country names currently expanded (collapsed by default)
+        wafidSort: { key: 'country', dir: 1 }, // for table view
         region: 'global',
         trayCollapsed: false,
         _depanelSelectedId:   null,           // FIX #21 — declare here so boot order doesn't matter
@@ -2368,30 +2629,6 @@
               `, { maxWidth: 280 });
               demandLayer.addLayer(ring);
             });
-            // "No data" overlay — WAFID centres whose city is not on the published demand list.
-            const noData = {};
-            centres.forEach(c => {
-              if (!c.programs.includes('WAFID') || c.lat == null) return;
-              const k = c.sourceCountry + '|' + c.city;
-              // Track demand keys globally (across all source countries) so "no data" only
-              // covers cities truly absent from the published list, not those filtered out.
-              const inDemand = dd.cities.some(dc => dc.country === c.sourceCountry && dc.city === c.city);
-              if (inDemand) return;
-              if (filterActive && !cf.has(c.sourceCountry)) return;
-              if (!noData[k]) noData[k] = { city: c.city, country: c.sourceCountry, lat: c.lat, lng: c.lng, count: 0 };
-              noData[k].count++;
-            });
-            Object.values(noData).forEach(nd => {
-              const ring = L.circleMarker([nd.lat, nd.lng], {
-                radius: 6, color: '#9ca3af', weight: 1, opacity: .55,
-                fillColor: '#e5e7eb', fillOpacity: .4
-              });
-              ring.bindPopup(`
-                <div class="popup-title">${escapeHTML(nd.city)}, ${escapeHTML(nd.country)}</div>
-                <div class="popup-meta">No WAFID demand published · ${nd.count} WAFID centre${nd.count === 1 ? '' : 's'} here</div>
-              `, { maxWidth: 280 });
-              demandLayer.addLayer(ring);
-            });
           }
           demandLayer.addTo(map);
         }
@@ -2436,8 +2673,7 @@
             </h4>
             <div class="lg-row"><span class="lg-dot" style="background:#c53030"></span> High <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nHigh}</span></div>
             <div class="lg-row"><span class="lg-dot" style="background:#d97706"></span> Moderate <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nModerate}</span></div>
-            <div class="lg-row"><span class="lg-dot" style="background:#2f8a3e"></span> Low <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nLow}</span></div>
-            <div class="lg-row"><span class="lg-dot" style="background:#e5e7eb;border:1px solid #9ca3af"></span> No data <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${noDataSet.size}</span></div>`;
+            <div class="lg-row"><span class="lg-dot" style="background:#2f8a3e"></span> Low <span style="margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums">${nLow}</span></div>`;
         } else {
           el.innerHTML = `
             <h4>Status</h4>
@@ -3450,6 +3686,7 @@
         renderDepanelPane();
         renderFilteredCentresList();
         refreshUpdateCentreSelect();
+        renderWafidPane();
         // Refresh badges
         const newCount = state.data.centres.filter(c => Object.values(c.programStatuses).some(s => s === 'New Empanelment')).length;
         const depCount = state.data.centres.filter(c => Object.values(c.programStatuses).some(s => s === 'De-panelled')).length;
@@ -3529,6 +3766,7 @@
       function setTab(name) {
         $$('.rail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
         $$('.rail-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === name));
+        if (name === 'wafid') renderWafidPane();
         // On narrow screens make sure rail is visible
         if (window.innerWidth < 821) $('#rail').classList.add('show');
       }
@@ -3554,6 +3792,233 @@
           return;
         }
         $('#loader').classList.add('hide');
+      }
+
+      /* ----- WAFID DEMAND PANE ----- */
+
+      function renderWafidPane() {
+        const pane = $('#paneWafid');
+        if (!pane) return;
+
+        // Preserve search-input focus + caret position across the re-render.
+        // Without this, typing in #wfSearch loses focus on every keystroke
+        // because we replace innerHTML wholesale.
+        const prevSearch = document.activeElement && document.activeElement.id === 'wfSearch'
+          ? { caret: document.activeElement.selectionStart, end: document.activeElement.selectionEnd }
+          : null;
+        const restoreSearchFocus = () => {
+          if (!prevSearch) return;
+          const next = pane.querySelector('#wfSearch');
+          if (!next) return;
+          next.focus();
+          try { next.setSelectionRange(prevSearch.caret, prevSearch.end); } catch (_) {}
+        };
+
+        const dd = state.data && state.data.wafidDemand;
+        if (!dd || !Array.isArray(dd.cities) || !dd.cities.length) {
+          pane.innerHTML = '<div class="wf-empty">No WAFID demand data available.</div>';
+          return;
+        }
+
+        const cf = state.filters.countries;
+        const countryFilterActive = cf && cf.size > 0;
+        const q = (state.wafidSearch || '').trim().toLowerCase();
+        const lvl = state.wafidLevel || '';
+
+        // Cities in scope: respect rail's source-country filter, then search, then demand level pill
+        const inScope = dd.cities.filter(c => !countryFilterActive || cf.has(c.country));
+        const matched = inScope.filter(c =>
+          (!lvl || c.demand === lvl) &&
+          (!q || (c.city + ' ' + c.country).toLowerCase().includes(q))
+        );
+
+        // KPI totals based on the rail's country filter (not search/level pill)
+        const total = inScope.length;
+        const nHigh = inScope.filter(c => c.demand === 'high').length;
+        const nMod  = inScope.filter(c => c.demand === 'moderate').length;
+        const nLow  = inScope.filter(c => c.demand === 'low').length;
+
+        const noteEsc = escapeHTML(dd.note || 'Partial dataset — only cities WAFID publishes.');
+        const pubAt = dd.publishedAt ? `<span style="margin-left:auto;color:var(--muted-2);font-variant-numeric:tabular-nums">Updated ${escapeHTML(dd.publishedAt)}</span>` : '';
+
+        let html = `
+          <div class="wf-banner">
+            <span class="wf-info-icon">i</span>
+            <span>${noteEsc}</span>
+          </div>
+          <div class="wf-toolbar">
+            <div class="wf-toggle" role="group" aria-label="View mode">
+              <button type="button" class="${state.wafidView === 'list' ? 'active' : ''}" data-wfview="list">List</button>
+              <button type="button" class="${state.wafidView === 'table' ? 'active' : ''}" data-wfview="table">Table</button>
+            </div>
+            <input type="text" class="input" id="wfSearch" placeholder="Search city or country…" value="${escapeHTML(state.wafidSearch || '')}" />
+            <button class="btn" id="wfExport" title="Download visible rows as CSV" style="padding:5px 9px;font-size:11px">CSV</button>
+          </div>
+          <div class="wf-kpis">
+            <div class="wf-kpi"><div class="wf-kpi-label">Cities</div><div class="wf-kpi-val">${fmt(total)}</div></div>
+            <div class="wf-kpi" style="border-left:3px solid #c53030"><div class="wf-kpi-label">High</div><div class="wf-kpi-val" style="color:#c53030">${fmt(nHigh)}</div></div>
+            <div class="wf-kpi" style="border-left:3px solid #d97706"><div class="wf-kpi-label">Moderate</div><div class="wf-kpi-val" style="color:#d97706">${fmt(nMod)}</div></div>
+            <div class="wf-kpi" style="border-left:3px solid #2f8a3e"><div class="wf-kpi-label">Low</div><div class="wf-kpi-val" style="color:#2f8a3e">${fmt(nLow)}</div></div>
+          </div>
+          <div class="wf-pills">
+            <button class="wf-pill ${lvl === '' ? 'active' : ''}" data-wflvl="">All</button>
+            <button class="wf-pill ${lvl === 'high' ? 'active' : ''}" data-wflvl="high"><span class="wf-dot" style="background:#c53030"></span>High</button>
+            <button class="wf-pill ${lvl === 'moderate' ? 'active' : ''}" data-wflvl="moderate"><span class="wf-dot" style="background:#d97706"></span>Moderate</button>
+            <button class="wf-pill ${lvl === 'low' ? 'active' : ''}" data-wflvl="low"><span class="wf-dot" style="background:#2f8a3e"></span>Low</button>
+          </div>`;
+
+        if (!matched.length) {
+          html += '<div class="wf-empty">No cities match the current filters.</div>';
+          pane.innerHTML = html;
+          wireWafidPane(matched);
+          restoreSearchFocus();
+          return;
+        }
+
+        if (state.wafidView === 'list') {
+          // Group by country, preserving insertion order from data; expanded by default;
+          // when a search or level filter is active, force-expand groups so matches are visible.
+          const groups = {};
+          matched.forEach(c => { (groups[c.country] = groups[c.country] || []).push(c); });
+          const filterIsActive = !!q || !!lvl;
+
+          Object.entries(groups).forEach(([country, cities]) => {
+            // Collapsed by default. Expand on click, or when a search/level filter is active so matches stay visible.
+            const collapsed = !filterIsActive && !state.wafidExpanded.has(country);
+            html += `
+              <div class="wf-group-head ${collapsed ? 'collapsed' : ''}" data-wfgroup="${escapeHTML(country)}">
+                <span class="wf-caret">▾</span>
+                <span>${escapeHTML(country)}</span>
+                <span class="wf-group-count">${cities.length} ${cities.length === 1 ? 'city' : 'cities'}</span>
+              </div>
+              <div class="wf-group-body">`;
+            cities
+              .slice()
+              .sort((a, b) => a.city.localeCompare(b.city))
+              .forEach(c => {
+                const cls = 'wf-badge-' + c.demand;
+                html += `
+                  <div class="wf-city">
+                    <span class="wf-city-name">${escapeHTML(c.city)}</span>
+                    <span class="wf-badge ${cls}">${escapeHTML(c.demand)}</span>
+                    <button class="wf-locate" data-wflat="${c.lat}" data-wflng="${c.lng}" data-wfcity="${escapeHTML(c.city)}" data-wfcountry="${escapeHTML(c.country)}" title="Focus on map">📍</button>
+                  </div>`;
+              });
+            html += '</div>';
+          });
+        } else {
+          // Table view — sortable columns
+          const sk = state.wafidSort.key;
+          const sd = state.wafidSort.dir;
+          const demandRank = { high: 3, moderate: 2, low: 1 };
+          const rows = matched.slice().sort((a, b) => {
+            let av, bv;
+            if (sk === 'demand') { av = demandRank[a.demand] || 0; bv = demandRank[b.demand] || 0; }
+            else { av = (a[sk] || '').toString().toLowerCase(); bv = (b[sk] || '').toString().toLowerCase(); }
+            if (av < bv) return -1 * sd;
+            if (av > bv) return  1 * sd;
+            return 0;
+          });
+          const arrow = (key) => sk === key ? (sd === 1 ? 'sorted-asc' : 'sorted') : '';
+          html += `<div style="overflow:auto;max-height:calc(100% - 220px)">
+            <table class="wf-table">
+              <thead><tr>
+                <th class="${arrow('country')}" data-wfsort="country">Country</th>
+                <th class="${arrow('city')}" data-wfsort="city">City</th>
+                <th class="${arrow('demand')}" data-wfsort="demand">Demand</th>
+                <th></th>
+              </tr></thead>
+              <tbody>${rows.map(c => `
+                <tr>
+                  <td style="color:var(--muted);font-size:11px">${escapeHTML(c.country)}</td>
+                  <td><b>${escapeHTML(c.city)}</b></td>
+                  <td><span class="wf-badge wf-badge-${c.demand}">${escapeHTML(c.demand)}</span></td>
+                  <td style="text-align:right"><button class="wf-locate" data-wflat="${c.lat}" data-wflng="${c.lng}" data-wfcity="${escapeHTML(c.city)}" data-wfcountry="${escapeHTML(c.country)}" title="Focus on map">📍</button></td>
+                </tr>`).join('')}</tbody>
+            </table>
+          </div>`;
+        }
+
+        pane.innerHTML = html;
+        wireWafidPane(matched);
+        restoreSearchFocus();
+      }
+
+      function wireWafidPane(visibleRows) {
+        const pane = $('#paneWafid');
+        if (!pane) return;
+
+        // View toggle
+        $$('#paneWafid [data-wfview]').forEach(b => b.onclick = () => {
+          state.wafidView = b.dataset.wfview;
+          renderWafidPane();
+        });
+
+        // Search
+        const search = $('#wfSearch');
+        if (search) {
+          search.oninput = debounce(e => { state.wafidSearch = e.target.value; renderWafidPane(); }, 120);
+        }
+
+        // Level pills
+        $$('#paneWafid [data-wflvl]').forEach(b => b.onclick = () => {
+          state.wafidLevel = b.dataset.wflvl;
+          renderWafidPane();
+        });
+
+        // Group collapse/expand (list view) — collapsed by default
+        $$('#paneWafid [data-wfgroup]').forEach(h => h.onclick = () => {
+          const c = h.dataset.wfgroup;
+          if (state.wafidExpanded.has(c)) state.wafidExpanded.delete(c);
+          else state.wafidExpanded.add(c);
+          h.classList.toggle('collapsed');
+        });
+
+        // Table sort
+        $$('#paneWafid [data-wfsort]').forEach(th => th.onclick = () => {
+          const k = th.dataset.wfsort;
+          if (state.wafidSort.key === k) state.wafidSort.dir *= -1;
+          else { state.wafidSort.key = k; state.wafidSort.dir = 1; }
+          renderWafidPane();
+        });
+
+        // Locate buttons: switch to Demand layer + flyTo + open popup
+        $$('#paneWafid .wf-locate').forEach(b => b.onclick = (e) => {
+          e.stopPropagation();
+          const lat = parseFloat(b.dataset.wflat), lng = parseFloat(b.dataset.wflng);
+          if (isNaN(lat) || isNaN(lng)) return;
+          if (state.mapLayer !== 'demand') {
+            state.mapLayer = 'demand';
+            $$('.map-toolbar .tb-group[aria-label="Map layer"] .tb-btn').forEach(x => x.classList.toggle('active', x.dataset.layer === 'demand'));
+            renderMap();
+          }
+          map.flyTo([lat, lng], 8, { duration: 0.7 });
+          // Open the matching popup after the flyTo settles
+          setTimeout(() => {
+            if (!demandLayer) return;
+            demandLayer.eachLayer(layer => {
+              const ll = layer.getLatLng && layer.getLatLng();
+              if (ll && Math.abs(ll.lat - lat) < 1e-4 && Math.abs(ll.lng - lng) < 1e-4) layer.openPopup();
+            });
+          }, 750);
+        });
+
+        // CSV export
+        const exp = $('#wfExport');
+        if (exp) exp.onclick = () => {
+          const rows = [['Country', 'City', 'Demand', 'Latitude', 'Longitude']];
+          visibleRows.forEach(c => rows.push([c.country, c.city, c.demand, c.lat, c.lng]));
+          const csv = rows.map(r => r.map(v => {
+            const s = (v == null ? '' : String(v));
+            return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+          }).join(',')).join('\n');
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = 'wafid-demand.csv';
+          document.body.appendChild(a); a.click();
+          document.body.removeChild(a); URL.revokeObjectURL(url);
+        };
       }
 
       /* ----- UPDATE PANE ----- */
