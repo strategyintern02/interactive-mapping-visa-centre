@@ -1417,10 +1417,21 @@
     .wf-city:hover {
       background: #f8fafc
     }
-    .wf-city-name {
+    .wf-city-text {
       flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px
+    }
+    .wf-city-name {
       color: var(--text);
       font-weight: 500
+    }
+    .wf-city-state {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .02em
     }
     .wf-badge {
       font-size: 9px;
@@ -2623,8 +2634,9 @@
                 radius: 11, color: '#1f2937', weight: 1.5, opacity: .9,
                 fillColor: fill, fillOpacity: .55
               });
+              const locLine = [dc.city, dc.state, dc.country].filter(Boolean).map(escapeHTML).join(', ');
               ring.bindPopup(`
-                <div class="popup-title">${escapeHTML(dc.city)}, ${escapeHTML(dc.country)}</div>
+                <div class="popup-title">${locLine}</div>
                 <div class="popup-meta">WAFID source-country demand: <b style="text-transform:uppercase;color:${fill}">${escapeHTML(dc.demand)}</b></div>
               `, { maxWidth: 280 });
               demandLayer.addLayer(ring);
@@ -3829,7 +3841,7 @@
         const inScope = dd.cities.filter(c => !countryFilterActive || cf.has(c.country));
         const matched = inScope.filter(c =>
           (!lvl || c.demand === lvl) &&
-          (!q || (c.city + ' ' + c.country).toLowerCase().includes(q))
+          (!q || (c.city + ' ' + (c.state || '') + ' ' + c.country).toLowerCase().includes(q))
         );
 
         // KPI totals based on the rail's country filter (not search/level pill)
@@ -3897,9 +3909,13 @@
               .sort((a, b) => a.city.localeCompare(b.city))
               .forEach(c => {
                 const cls = 'wf-badge-' + c.demand;
+                const stateLabel = c.state ? `<span class="wf-city-state">${escapeHTML(c.state)}</span>` : '';
                 html += `
                   <div class="wf-city">
-                    <span class="wf-city-name">${escapeHTML(c.city)}</span>
+                    <div class="wf-city-text">
+                      <span class="wf-city-name">${escapeHTML(c.city)}</span>
+                      ${stateLabel}
+                    </div>
                     <span class="wf-badge ${cls}">${escapeHTML(c.demand)}</span>
                     <button class="wf-locate" data-wflat="${c.lat}" data-wflng="${c.lng}" data-wfcity="${escapeHTML(c.city)}" data-wfcountry="${escapeHTML(c.country)}" title="Focus on map">📍</button>
                   </div>`;
@@ -3931,7 +3947,10 @@
               <tbody>${rows.map(c => `
                 <tr>
                   <td style="color:var(--muted);font-size:11px">${escapeHTML(c.country)}</td>
-                  <td><b>${escapeHTML(c.city)}</b></td>
+                  <td>
+                    <b>${escapeHTML(c.city)}</b>
+                    ${c.state ? `<div style="font-size:10px;color:var(--muted);margin-top:1px">${escapeHTML(c.state)}</div>` : ''}
+                  </td>
                   <td><span class="wf-badge wf-badge-${c.demand}">${escapeHTML(c.demand)}</span></td>
                   <td style="text-align:right"><button class="wf-locate" data-wflat="${c.lat}" data-wflng="${c.lng}" data-wfcity="${escapeHTML(c.city)}" data-wfcountry="${escapeHTML(c.country)}" title="Focus on map">📍</button></td>
                 </tr>`).join('')}</tbody>
@@ -4006,8 +4025,8 @@
         // CSV export
         const exp = $('#wfExport');
         if (exp) exp.onclick = () => {
-          const rows = [['Country', 'City', 'Demand', 'Latitude', 'Longitude']];
-          visibleRows.forEach(c => rows.push([c.country, c.city, c.demand, c.lat, c.lng]));
+          const rows = [['Country', 'State', 'City', 'Demand', 'Latitude', 'Longitude']];
+          visibleRows.forEach(c => rows.push([c.country, c.state || '', c.city, c.demand, c.lat, c.lng]));
           const csv = rows.map(r => r.map(v => {
             const s = (v == null ? '' : String(v));
             return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
